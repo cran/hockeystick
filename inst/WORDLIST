@@ -25,10 +25,12 @@ GMSL
 Geophys
 Geosci
 Guenther
+HURDAT
 Hawkins’
 Jouzel
 Kotlyakov
 LOTI
+Landsea
 Lenssen
 Lifecycle
 Loa
@@ -84,6 +86,7 @@ giss
 gistemp
 github
 gmd
+hs
 http
 https
 icecurves
@@ -96,6 +99,7 @@ multidecadal
 nasa
 nesdis
 noaa
+nrg
 nsidc
 palaeoclimate
 paleo

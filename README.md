@@ -10,6 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 ![R-CMD-check](https://github.com/cortinah/hockeystick/workflows/R-CMD-check/badge.svg)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/hockeystick)](https://CRAN.R-project.org/package=hockeystick)
+[![](https://cranlogs.r-pkg.org/badges/hockeystick)](https://cran.r-project.org/package=hockeystick)
 <!-- badges: end -->
 
 The goal of `hockeystick` is to make essential Climate Change datasets
@@ -29,7 +30,12 @@ I wrote my own
 [post](http://rethinking.rbind.io/2018/11/16/the-top-five-climate-charts-using-ggplot2/)
 on obtaining and visualizing this data (now out of date), which is the
 basis for this package. Additional datasets and visualizations have been
-added over time.
+added over The name of the package stems from the well known
+[hockeystick](https://en.wikipedia.org/wiki/Hockey_stick_graph)
+temperature chart.
+
+**NEW in version 0.5.0:** North Atlantic hurricane data from NOAA (see
+below).
 
 ## Installation
 
@@ -103,7 +109,7 @@ plot_seaice(seaice)
 `get_seaice()` arguments can be modified to download Antarctic sea ice,
 and allow any month.
 
-You can also visualize Sea Ice by month and year:
+You can also visualize sea ice by month and year:
 
 ``` r
 arcticice <- get_icecurves()
@@ -131,6 +137,21 @@ plot_paleo(vostok)
 
 <img src="man/figures/README-paleo-1.png" width="64%" />
 
+Retrieve NOAA HURDAT2 hurricane data and plot it:
+
+``` r
+hurricanes <- get_hurricanes()
+plot_hurricanes(hurricanes)
+```
+
+<img src="man/figures/README-hurricanes-1.png" width="64%" />
+
+``` r
+plot_hurricane_nrg(hurricanes)
+```
+
+<img src="man/figures/README-hurricanes-2.png" width="64%" />
+
 ### Managing the cache
 
 By default, no climate data is cached, and all data is downloaded every
@@ -144,7 +165,10 @@ functions, for example:
 `get_carbon(use_cache = FALSE, write_cache = TRUE)`. To delete all
 cached data use `hockeystick_cache_delete_all()`.
 
-### All together now: Climate Data Grid
+Users may also cache data by default by adding
+`options(hs_write_cache = TRUE)`to their script or `.Rprofile` file.
+
+### All together now: climate data grid
 
 ``` r
 climate_grid()
@@ -169,7 +193,7 @@ climate_grid()
 -   Sea level data: [NOAA Laboratory for Satellite Altimetry
     (sat)](https://www.star.nesdis.noaa.gov/socd/lsa/SeaLevelRise/) and
     [Commonwealth Scientific and Industrial Research Organisation (tide
-    gauges)](http://www.cmar.csiro.au/sealevel/sl_data_cmar.html)
+    gauges)](https://research.csiro.au/slrwavescoast/sea-level/measurements-and-data/sea-level-data/)
 -   Sea Ice Index: [National Snow & Ice Data
     Center](https://nsidc.org/). Data Archive:
     <https://nsidc.org/data/seaice_index/archives>
@@ -177,11 +201,15 @@ climate_grid()
     <https://cdiac.ess-dive.lbl.gov/trends/co2/vostok.html>
 -   Common Era reconstructed temperature data: [PAGES2k Consortium and
     NOAA](https://www.ncdc.noaa.gov/paleo-search/study/26872).
+-   Hurricane data: National Oceanic and Atmospheric Administration
+    HURDAT Atlantic Hurricane Database [Re-analysis
+    Project](https://www.aoml.noaa.gov/hrd/hurdat/Data_Storm.html),
+    particularly Dr. Chris Landsea.
 -   Caching data sets: ROpenSci guide to [Persistent config and data for
     R packages](https://blog.r-hub.io/2020/03/12/user-preferences/) and
     the [getlandsat](https://docs.ropensci.org/getlandsat/) package.
 
-## Notes and Resources
+## Notes and resources
 
 -   All data is compiled to the best of my ability from reliable and
     peer-reviewed sources. Please open an issue if you are aware of

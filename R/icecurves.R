@@ -8,7 +8,7 @@
 #' @param pole 'N' for Arctic or 'S' for Antarctic
 #' @param measure Must be 'extent' or 'area', defaults to 'extent'. Please see terminology link in references for details.
 #' @param use_cache (boolean) Return cached data if available, defaults to TRUE. Use FALSE to fetch updated data, or to change pole or month in cache.
-#' @param write_cache (boolean) Write data to cache, defaults to FALSE. Use TRUE to write data to cache for later use.
+#' @param write_cache (boolean) Write data to cache, defaults to FALSE. Use TRUE to write data to cache for later use. Can also be set using options(hs_write_cache=TRUE)
 #'
 #' @return Invisibly returns a tibble with the series of monthly Sea Ice Index since 1979 (in million square km).
 #'
@@ -18,6 +18,7 @@
 #' Defaults to Arctic sea ice extent.  \url{https://nsidc.org/arcticseaicenews/faq/#area_extent}
 #'
 #' @importFrom utils download.file read.csv
+#' @importFrom tibble tibble
 #'
 #' @examples
 #' \donttest{
@@ -45,7 +46,7 @@
 #'
 #' @export
 
-get_icecurves <- function(pole='N', measure='extent', use_cache = TRUE, write_cache = FALSE) {
+get_icecurves <- function(pole='N', measure='extent', use_cache = TRUE, write_cache = getOption("hs_write_cache")) {
 
   if (pole!='S' & pole!='N') stop("pole must be 'N' or 'S'")
     if (measure!='extent' & measure!='area') stop("measure must be 'extent' or 'area'")
@@ -78,7 +79,9 @@ get_icecurves <- function(pole='N', measure='extent', use_cache = TRUE, write_ca
 
   icecurves <- lapply(month, curve)
   icecurves <- do.call("rbind", icecurves)
-  if (write_cache) saveRDS(icecurves, file.path(hs_path, 'icecurves.rds'))
+  icecurves <- tibble::tibble(icecurves)
+
+    if (write_cache) saveRDS(icecurves, file.path(hs_path, 'icecurves.rds'))
 
   invisible(icecurves) }
 
