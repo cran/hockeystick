@@ -29,3 +29,15 @@
 # hockeystick 0.5.1
 
 * Update caching approach to comply with CRAN policies
+
+# hockeystick 0.5.2
+
+* Add date/value annotations to charts
+
+# hockeystick 0.6.0
+
+* Add global emissions from GCP: get_emissions(), plot_emissions()
+
+# hockeystick 0.6.1
+
+* Fix leaving example data in cache
