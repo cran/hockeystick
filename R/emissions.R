@@ -45,6 +45,9 @@ if (use_cache & !write_cache) {
   if (file.exists(file.path(hs_path,'emissions.rds'))) return(invisible(readRDS((file.path(hs_path,'emissions.rds')))))
   }
 
+connected <- .isConnected()
+if (!connected) {message("Retrieving remote data requires internet connectivity."); return(invisible(NULL))}
+
 file_url <- 'https://github.com/owid/co2-data/raw/master/owid-co2-data.csv'
 dl <- tempfile()
 download.file(file_url, dl)
@@ -107,12 +110,14 @@ invisible(emissions)
 #' @export
 
 plot_emissions <- function(dataset = get_emissions(),
-                  start_year = 1900, region = 'OWID_WRL',
+                  start_year = 1900, region = 'World',
                   field = 'co2', print = TRUE, annot = TRUE,
                   title_expression = expression('Atmospheric '*CO[2]*' Emissions'),
                   yaxis_expression = expression('Gt '*CO[2]*' per year' )) {
 
-  dataset <- filter(dataset, iso_code == region)
+  if (is.null(dataset)) return(invisible(NULL))
+
+  dataset <- filter(dataset, country == region)
   dataset <- filter(dataset, year >= start_year)
   dataset$co2 <- dataset$co2/1000
 
@@ -126,7 +131,7 @@ dtmin <- pull(slice(dataset, which.min(year)), year)
 vl <- pull(slice(dataset, which.max(year)), field)
 vl <- round(vl, 1)
 
-plot <- plot + annotate("text",x = dtmin+(dtmax-dtmin)/10, y=vl*0.9, label=paste(dtmax, vl,sep=": "), color='red')
+plot <- plot + annotate("text", x = dtmin+(dtmax-dtmin)/10, y=vl*0.9, label=paste(dtmax, vl,sep=": "), color='red')
 }
 
 if (print) print(plot)

@@ -50,6 +50,9 @@ hs_path <- tools::R_user_dir("hockeystick","cache")
 if (use_cache) {
   if (file.exists(file.path(hs_path,'temp2k.rds'))) return(invisible(readRDS((file.path(hs_path,'temp2k.rds')))))   }
 
+connected <- .isConnected()
+if (!connected) {message("Retrieving remote data requires internet connectivity."); return(invisible(NULL))}
+
 file_url <- 'https://www1.ncdc.noaa.gov/pub/data/paleo/pages2k/neukom2019temp/recons/Full_ensemble_median_and_95pct_range.txt'
 
 dl <- tempfile()
@@ -109,6 +112,8 @@ invisible(temp2k_l)
 
 plot_temp2k <- function(dataset = get_temp2k(), instrumental = TRUE,
                         filtered = TRUE, print = TRUE) {
+
+  if (is.null(dataset)) return(invisible(NULL))
 
   if (filtered) dataset <- filter(dataset, substr(measure,1, 8) == "filtered") else
                 dataset <- filter(dataset, substr(measure,1, 8) != "filtered")

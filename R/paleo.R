@@ -53,6 +53,9 @@ get_paleo <- function(use_cache = TRUE, write_cache = getOption("hs_write_cache"
     if (file.exists(file.path(hs_path,'paleo.rds'))) return(invisible(readRDS((file.path(hs_path,'paleo.rds')))))
   }
 
+connected <- .isConnected()
+if (!connected) {message("Retrieving remote data requires internet connectivity."); return(invisible(NULL))}
+
 file_url <- 'http://cdiac.ess-dive.lbl.gov/ftp/trends/co2/vostok.icecore.co2'
 dl <- tempfile()
 download.file(file_url, dl)
@@ -113,6 +116,8 @@ invisible(paleo) }
 #' @export
 
 plot_paleo <- function(dataset = get_paleo(), print=TRUE) {
+
+if (is.null(dataset)) return(invisible(NULL))
 
 a <- ggplot(dataset[dataset$name=='co2',], aes(x=age_ice, y=value)) +geom_line(size=.8, col='firebrick1') +scale_x_reverse(lim=c(423000,0)) +
             theme_bw() + theme(axis.title.x=element_blank(), axis.text.x=element_blank()) +labs(y=expression(CO[2]*' concentration' ))

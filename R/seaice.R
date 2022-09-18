@@ -62,6 +62,9 @@ get_seaice <- function(pole='N', month='07', measure='extent',
     if (file.exists(file.path(hs_path,'seaice.rds'))) return(invisible(readRDS((file.path(hs_path,'seaice.rds')))))
     }
 
+  connected <- .isConnected()
+  if (!connected) {message("Retrieving remote data requires internet connectivity."); return(invisible(NULL))}
+
   if (pole=='N') file_url <- 'ftp://sidads.colorado.edu/DATASETS/NOAA/G02135/north/monthly/data/'
   if (pole=='S') file_url <- 'ftp://sidads.colorado.edu/DATASETS/NOAA/G02135/south/monthly/data/'
 
@@ -120,6 +123,8 @@ get_seaice <- function(pole='N', month='07', measure='extent',
 #' @export
 
 plot_seaice <- function(dataset = get_seaice(), title='Arctic Sea Ice', print=TRUE) {
+
+  if (is.null(dataset)) return(invisible(NULL))
 
   subtitle <- paste0(as.character(lubridate::month(dataset[nrow(dataset),'date', drop=TRUE], label=TRUE, abbr=FALSE))," mean sea ice ", colnames(dataset)[2],". Linear regression in blue.")
 

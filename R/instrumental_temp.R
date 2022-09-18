@@ -54,6 +54,9 @@ if (use_cache) {
   if (file.exists(file.path(hs_path,'gisstemp.rds'))) return(invisible(readRDS((file.path(hs_path,'gisstemp.rds')))))
   }
 
+connected <- .isConnected()
+if (!connected) {message("Retrieving remote data requires internet connectivity."); return(invisible(NULL))}
+
 file_url <- 'https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv'
 dl <- tempfile()
 download.file(file_url, dl)
@@ -105,6 +108,7 @@ invisible(gisstemp)
 
 plot_temp <- function(dataset = get_temp(), print=TRUE) {
 
+if (is.null(dataset)) return(invisible(NULL))
 
 plot <- ggplot(dataset, aes(x=Year, y=`J-D`)) +geom_line(alpha=0.75, aes(color='Annual mean')) + theme_bw(base_size=12) +
   scale_x_date(name=NULL, limits=c(as.Date('1878-01-01'), ymd(max(dataset$Year))), date_breaks='15 years', date_labels='%Y') +

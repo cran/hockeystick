@@ -58,6 +58,9 @@ get_sealevel <- function(use_cache = TRUE, write_cache = getOption("hs_write_cac
     if (file.exists(file.path(hs_path,'sealevel.rds'))) return(invisible(readRDS((file.path(hs_path,'sealevel.rds')))))
   }
 
+connected <- .isConnected()
+if (!connected) {message("Retrieving remote data requires internet connectivity."); return(invisible(NULL))}
+
 file_url <- 'https://www.star.nesdis.noaa.gov/socd/lsa/SeaLevelRise/slr/slr_sla_gbl_free_txj1j2_90.csv'
 dl <- tempfile()
 download.file(file_url, dl)
@@ -129,6 +132,8 @@ invisible(gmsl) }
 #' @export
 
 plot_sealevel <- function(dataset = get_sealevel(), print=TRUE) {
+
+if (is.null(dataset)) return(invisible(NULL))
 
 plot <-  ggplot(dataset, aes(x=date, color=method, y=gmsl)) +geom_line(size=1) + theme_bw(base_size = 12) +
          scale_x_date(name=NULL, breaks='15 years', limits = c(ymd('1878-01-01'), ceiling_date(max(dataset$date), 'years')), date_labels ='%Y') +
