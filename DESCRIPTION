@@ -1,6 +1,6 @@
 Package: hockeystick
 Title: Download and Visualize Essential Climate Change Data
-Version: 0.8.5
+Version: 0.8.6
 Authors@R: 
     person(given = "Hernando",
            family = "Cortina",
@@ -15,13 +15,16 @@ URL: https://cortinah.github.io/hockeystick/,
         https://github.com/cortinah/hockeystick
 BugReports: https://github.com/cortinah/hockeystick/issues
 Imports: ggplot2, lubridate, tools, readr, dplyr, tidyr, patchwork,
-        scales, rvest, tibble, treemapify, RColorBrewer, jsonlite
-Depends: R (>= 4.0.0)
-Suggests: rmarkdown, knitr, spelling, viridisLite
+        scales, rvest, tibble, treemapify, RColorBrewer, jsonlite,
+        readxl
+Depends: R (>= 4.1.0)
+Suggests: rmarkdown, knitr, spelling, viridisLite, quarto
 Language: en-US
+VignetteBuilder: quarto
 NeedsCompilation: no
-Packaged: 2024-11-25 01:25:43 UTC; hernandocortina
-Author: Hernando Cortina [aut, cre] (<https://orcid.org/0000-0001-6790-4870>)
+Packaged: 2025-08-19 01:20:53 UTC; hernandocortina
+Author: Hernando Cortina [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-6790-4870>)
 Maintainer: Hernando Cortina <hch@alum.mit.edu>
 Repository: CRAN
-Date/Publication: 2024-11-25 09:00:02 UTC
+Date/Publication: 2025-08-19 05:00:03 UTC
